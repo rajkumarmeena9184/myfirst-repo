@@ -2,11 +2,11 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>ORS</groupId>
-	<artifactId>project0</artifactId>
+	<groupId>ors</groupId>
+	<artifactId>Project0</artifactId>
 	<packaging>war</packaging>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>project0 Maven Webapp</name>
+	<name>Project0 Maven Webapp</name>
 	<url>http://maven.apache.org</url>
 	<dependencies>
 		<dependency>
@@ -15,18 +15,7 @@
 			<version>3.8.1</version>
 			<scope>test</scope>
 		</dependency>
-		<!-- <dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>javax.servlet-api</artifactId>
-			<version>4.0.0</version>
-		</dependency>
-		https://mvnrepository.com/artifact/org.springframework/spring-core
 		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-core</artifactId>
-			<version>4.3.5.RELEASE</version>
-		</dependency> -->
-			<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-core</artifactId>
 			<version>4.0.5.RELEASE</version>
@@ -42,6 +31,13 @@
 
 
 
+		<!-- Spring ORM/JDBC/tx -->
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-orm -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+			<version>4.0.5.RELEASE</version>
+		</dependency>
 
 		<!-- Spring context/aop/beans/expression -->
 		<!-- https://mvnrepository.com/artifact/org.springframework/spring-context -->
@@ -60,17 +56,6 @@
 			<artifactId>spring-context-support</artifactId>
 			<version>4.0.5.RELEASE</version>
 		</dependency>
-
-
-		<!-- Spring ORM/JDBC/tx -->
-		<!-- https://mvnrepository.com/artifact/org.springframework/spring-orm -->
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-orm</artifactId>
-			<version>4.0.5.RELEASE</version>
-		</dependency>
-
-
 		<!--Spring web -->
 		<!-- https://mvnrepository.com/artifact/org.springframework/spring-web -->
 		<dependency>
@@ -197,7 +182,7 @@
 			<version>1.1.0.Final</version>
 		</dependency>
 
-		<!-- Validator @PostConstruct @PreDestroy  -->
+		<!-- Validator @PostConstruct @PreDestroy -->
 		<dependency>
 			<groupId>javax.annotation</groupId>
 			<artifactId>jsr250-api</artifactId>
@@ -251,6 +236,6 @@
 
 	</dependencies>
 	<build>
-		<finalName>project0</finalName>
+		<finalName>Project0</finalName>
 	</build>
 </project>

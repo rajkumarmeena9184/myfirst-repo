@@ -2,33 +2,110 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:tx="http://www.springframework.org/schema/tx"
 	xmlns:mvc="http://www.springframework.org/schema/mvc"
-	xsi:schemaLocation="
-    http://www.springframework.org/schema/beans
-    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-    http://www.springframework.org/schema/context
-    http://www.springframework.org/schema/context/spring-context-3.0.xsd
-    http://www.springframework.org/schema/tx
-    http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
-    http://www.springframework.org/schema/mvc
-    http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd">
 
 	<!-- to enable mvc annotation stereotype -->
 	<mvc:annotation-driven />
 	<!-- To enable java annotation based configuration -->
 	<context:annotation-config />
 	<!--Scan @Repository, @Service, @Component and @Controller spring beans -->
+
 	<context:component-scan
-		base-package="in.co.sunrays.proj0.*" />
-	<!-- <context:component-scan base-package="in.co.sunrays.proj0.contoller"></context:component-scan> 
-		<context:component-scan base-package="in.co.sunrays.proj0.dao"></context:component-scan> 
-		<context:component-scan base-package="in.co.sunrays.proj0.dto"></context:component-scan> 
-		<context:component-scan base-package="in.co.sunrays.proj0.service"></context:component-scan> -->
-	<!-- Database Configuration -->
+		base-package="in.co.sunrays.proj0.*"></context:component-scan>
 	<import resource="Hibernate-servlet.xml" />
 
 	<!-- To mapping properties files -->
-	<mvc:resources location="/resources/**"
-		mapping="/resources/" />
+	<mvc:resources mapping="/resources/**"
+		location="/resources/" />
+
+
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+		<property name="viewClass">
+			<value>
+				org.springframework.web.servlet.view.tiles3.TilesView
+			</value>
+		</property>
+	</bean>
+
+	<!--Tiles configuration start -->
+	<bean id="tilesConfigurer"
+		class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
+		<property name="definitions">
+			<list>
+				<value>/WEB-INF/tiles.xml</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- The InternalResourceViewResolver will be defined to resolve the view 
+		names. As per the above defined rule, a logical view named "login" is delegated 
+		to a view implementation located at /WEB-INF/pages/login.jsp . It will be 
+		called in order 2 after tiles View resolver -->
+
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix">
+			<value>/WEB-INF/Pages/</value>
+		</property>
+		<property name="suffix">
+			<value>.jsp</value>
+		</property>
+	</bean>
+	<!-- i18n Start -->
+	<!-- Defines the message resources to get message on jsp from properties 
+		file -->
+	<bean id="messageSource"
+		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<property name="basename" value="classpath:messages" />
+		<property name="defaultEncoding" value="UTF-8" />
+		<property name="cacheSeconds" value="1"></property>
+	</bean>
+	<!-- default set value -->
+	<bean id="localeResolver"
+		class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
+		<property name="defaultLocale" value="en"></property>
+	</bean>
+	<!-- it's get value form header link -->
+	<mvc:interceptors>
+		<bean id="localeChangeInterceptor"
+			class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+			<property name="paramName" value="lang" />
+		</bean>
+	</mvc:interceptors>
+	<!-- i18n End -->
+
+	<!-- JSR-303 input validation custom -->
+	<bean id="validator"
+		class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+		<property name="validationMessageSource" ref="messageSource" />
+	</bean>
+	<!-- Apply Front Controller -->
+	<!-- <mvc:interceptors> <mvc:interceptor> <mvc:mapping path="/ctl/**/*" 
+		/> <mvc:mapping path="/resources/doc/**/*" /> <bean class="in.co.sunrays.proj0.controller.FrontControllerCtl" 
+		/> </mvc:interceptor> </mvc:interceptors> -->
+	<!-- Mail Sender Start -->
+	<bean id="mailSender"
+		class="org.springframework.mail.javamail.JavaMailSenderImpl">
+
+		<property name="host" value="smtp.gmail.com" />
+		<property name="port" value="587" />
+		<property name="protocol" value="smtp" />
+
+		<property name="username" value="webmaster@sunrays.co.in" />
+		<property name="password" value="PA$$1234" />
+
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.smtp.auth">true</prop>
+				<prop key="mail.smtp.starttls.enable">true</prop>
+				<prop key="mail.smtp.debug">true</prop>
+			</props>
+		</property>
+	</bean>
+	<!-- Mail Sender End -->
+
 </beans>
