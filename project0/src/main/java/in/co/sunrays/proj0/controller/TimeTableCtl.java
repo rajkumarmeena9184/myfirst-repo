@@ -5,6 +5,7 @@ import java.util.Locale;
 
 import javax.validation.Valid;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.context.MessageSource;
@@ -28,10 +29,17 @@ import in.co.sunrays.proj0.service.CourseServiceInt;
 import in.co.sunrays.proj0.service.SubjectServiceInt;
 import in.co.sunrays.proj0.service.TimeTableServiceInt;
 
+/**
+ * Contains navigation logics for TimeTable and TimeTable List Usecases.
+ *
+ * @author SunilOS
+ * @version 1.0
+ * @Copyright (c) SunilOS
+ */
 @Controller
 @RequestMapping(value = "/ctl/TimeTable")
 public class TimeTableCtl extends BaseCtl {
-
+	Logger log = Logger.getLogger(TimeTableCtl.class);
 	@Autowired
 	private TimeTableServiceInt service;
 
@@ -52,6 +60,7 @@ public class TimeTableCtl extends BaseCtl {
 
 	@Override
 	public void preload(Model model) {
+		log.debug("TimeTableCtl Method Preload Start");
 		List list1 = null;
 		List list2 = null;
 		try {
@@ -63,12 +72,13 @@ public class TimeTableCtl extends BaseCtl {
 		}
 		model.addAttribute("courseList", list1);
 		model.addAttribute("subjectList", list2);
+		log.debug("TimeTableCtl Method Preload End");
 	}
 
 	@RequestMapping(value = "/AddTimeTable", method = RequestMethod.GET)
 	public String display(@RequestParam(required = false) Long id, @ModelAttribute("form") TimeTableForm form,
 			Model model, Locale locale) {
-
+		log.debug("TimeTableCtl Method  display AddTimeTable  Start");
 		if (id != null && id > 0) {
 			TimeTableDTO dto = null;
 			try {
@@ -79,13 +89,14 @@ public class TimeTableCtl extends BaseCtl {
 			}
 			form.populate(dto);
 		}
-
+		log.debug("TimeTableCtl Method  display AddTimeTable  End");
 		return "TimeTableView";
 	}
 
 	@RequestMapping(value = "/AddTimeTable", method = RequestMethod.POST)
 	public String submit(@ModelAttribute("form") @Valid TimeTableForm form, BindingResult result, Model model,
 			Locale locale) {
+		log.debug("TimeTableCtl Method  submit AddTimeTable  Start");
 		if (OP_SAVE.equalsIgnoreCase(form.getOperation())) {
 			if (result.hasErrors()) {
 				return "TimeTableView";
@@ -121,14 +132,14 @@ public class TimeTableCtl extends BaseCtl {
 		if (OP_CANCEL.equalsIgnoreCase(form.getOperation())) {
 			return "redirect:/ctl/TimeTable/TimeTableListCtl";
 		}
-
+		log.debug("TimeTableCtl Method  submit AddTimeTable  Start");
 		return "TimeTableView";
 	}
 
 	@RequestMapping(value = "/TimeTableListCtl", method = RequestMethod.GET)
 	public String display(@RequestParam(required = false) String operation, @ModelAttribute("form") TimeTableForm form,
 			Model model, Locale locale) {
-
+		log.debug("TimeTableCtl Method  display TimeTableListCtl  Start");
 		int pageNo = form.getPageNo();
 		int pageSize = form.getPageSize();
 		List list = null;
@@ -147,13 +158,14 @@ public class TimeTableCtl extends BaseCtl {
 			e.printStackTrace();
 		}
 		model.addAttribute("nextlist", next.size());
+		log.debug("TimeTableCtl Method  display TimeTableListCtl  End");
 		return "TimeTableListView";
 	}
 
 	@RequestMapping(value = "/TimeTableListCtl", method = RequestMethod.POST)
 	public String submit(@RequestParam(required = false) String operation, @ModelAttribute("form") TimeTableForm form,
 			Model model, Locale locale) {
-
+		log.debug("TimeTableCtl Method  submit TimeTableListCtl  Start");
 		int pageNo = (form.getPageNo() == 0) ? 1 : form.getPageNo();
 		int pageSize = form.getPageSize();
 		List list = null;
@@ -214,6 +226,7 @@ public class TimeTableCtl extends BaseCtl {
 			e.printStackTrace();
 		}
 		model.addAttribute("nextlist", next.size());
+		log.debug("TimeTableCtl Method  submit TimeTableListCtl  End");
 		return "TimeTableListView";
 	}
 

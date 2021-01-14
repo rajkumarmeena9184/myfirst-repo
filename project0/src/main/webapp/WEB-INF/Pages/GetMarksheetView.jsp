@@ -12,7 +12,7 @@
 <head>
 <style type="text/css">
 body {
-	background-image: url("/ORS_0/resources/img/background.jpg");
+	background-image: url("/Project0/resources/img/background.jpg");
 	background-size: cover;
 	background-repeat: no-repeat;
 	background-attachment: fixed;

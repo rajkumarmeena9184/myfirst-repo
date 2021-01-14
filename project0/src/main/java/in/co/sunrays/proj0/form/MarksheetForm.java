@@ -11,7 +11,12 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import in.co.sunrays.proj0.dto.BaseDTO;
 import in.co.sunrays.proj0.dto.MarksheetDTO;
-
+/**
+ * Contains Marksheet form elements and their declarative input validations.
+ * 
+ * @author Iterator
+ * @version 1.0 Copyright (c) Iterator
+ */
 public class MarksheetForm extends BaseForm {
 	/**
 	 * RolleNo of Marksheet
@@ -127,8 +132,9 @@ public class MarksheetForm extends BaseForm {
 		studentId = dto.getStudentId();
 		name = dto.getStudentName();
 		rollNo = dto.getRollnumber();
+		
 		physics = dto.getPhysics();
-		chemistry = dto.getMaths();
+		chemistry = dto.getChemistry();
 		maths = dto.getMaths();
 		createdBy = dto.getCreatedBy();
 		modifiedBy = dto.getModifiedBy();

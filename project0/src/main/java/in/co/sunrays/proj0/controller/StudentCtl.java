@@ -7,7 +7,8 @@ import java.util.Map;
 
 import javax.validation.Valid;
 
-import org.omg.CORBA.portable.ApplicationException;
+import org.apache.log4j.Logger;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.context.MessageSource;
@@ -30,10 +31,17 @@ import in.co.sunrays.proj0.form.StudentForm;
 import in.co.sunrays.proj0.service.CollegeServiceInt;
 import in.co.sunrays.proj0.service.StudentServiceInt;
 
+/**
+ * Contains navigation logics for Student and Student List Usecases.
+ *
+ * @author SunilOS
+ * @version 1.0
+ * @Copyright (c) SunilOS
+ */
 @Controller
 @RequestMapping(value = "/ctl/Student")
 public class StudentCtl extends BaseCtl {
-
+	Logger log = Logger.getLogger(StudentCtl.class);
 	@Autowired
 	private StudentServiceInt service;
 
@@ -51,6 +59,7 @@ public class StudentCtl extends BaseCtl {
 
 	@Override
 	public void preload(Model model) {
+		log.debug("StudentCtl method  preload Start");
 		List list = null;
 		try {
 			list = collegeservice.search(null);
@@ -59,19 +68,23 @@ public class StudentCtl extends BaseCtl {
 			e.printStackTrace();
 		}
 		model.addAttribute("collegeList", list);
+		log.debug("StudentCtl method  preload End");
 	}
 
 	@ModelAttribute("genderList")
 	public Map<String, String> getGenderList() {
+		log.debug("StudentCtl method  getGenderList Start");
 		Map<String, String> genderList = new HashMap<String, String>();
 		genderList.put("m", "Male");
 		genderList.put("f", "FeMale");
+		log.debug("StudentCtl method  getGenderList End");
 		return genderList;
 	}
 
 	@RequestMapping(value = "/AddStudent", method = RequestMethod.GET)
 	public String display(@RequestParam(required = false) Long id, @ModelAttribute("form") StudentForm form,
 			Model model, Locale locale) {
+		log.debug("StudentCtl AddStudent method  display Start");
 		if (id != null && id > 0) {
 			StudentDTO dto = null;
 			try {
@@ -82,13 +95,14 @@ public class StudentCtl extends BaseCtl {
 			}
 			form.populate(dto);
 		}
-
+		log.debug("StudentCtl AddStudent method  display End");
 		return "StudentView";
 	}
 
 	@RequestMapping(value = "/AddStudent", method = RequestMethod.POST)
 	public String submit(@ModelAttribute("form") @Valid StudentForm form, BindingResult result, Model model,
-			Locale locale) throws DuplicateRecordException, ApplicationException {
+			Locale locale) throws DuplicateRecordException {
+		log.debug("StudentCtl AddStudent method  submit Start");
 		if (OP_SAVE.equalsIgnoreCase(form.getOperation())) {
 			if (result.hasErrors()) {
 				return "StudentView";
@@ -117,14 +131,14 @@ public class StudentCtl extends BaseCtl {
 		if (OP_CANCEL.equalsIgnoreCase(form.getOperation())) {
 			return "redirect:/ctl/Student/StudentListCtl";
 		}
-
+		log.debug("StudentCtl AddStudent method  submit End");
 		return "StudentView";
 	}
 
 	@RequestMapping(value = "/StudentListCtl", method = RequestMethod.GET)
-	public String display(@RequestParam(required = false) String operation, @ModelAttribute("form") RoleForm form,
+	public String display(@RequestParam(required = false) String operation, @ModelAttribute("form") StudentForm form,
 			Model model, Locale locale) {
-
+		log.debug("StudentCtl StudentListCtl method  display Start");
 		int pageNo = form.getPageNo();
 		int pageSize = form.getPageSize();
 		List list = null;
@@ -143,13 +157,14 @@ public class StudentCtl extends BaseCtl {
 			e.printStackTrace();
 		}
 		model.addAttribute("nextlist", next.size());
+		log.debug("StudentCtl StudentListCtl method  display End");
 		return "StudentListView";
 	}
 
 	@RequestMapping(value = "/StudentListCtl", method = RequestMethod.POST)
 	public String submit(@RequestParam(required = false) String operation, @ModelAttribute("form") StudentForm form,
 			Model model, Locale locale) {
-
+		log.debug("StudentCtl StudentListCtl method  submit Start");
 		int pageNo = (form.getPageNo() == 0) ? 1 : form.getPageNo();
 		int pageSize = form.getPageSize();
 		List list = null;
@@ -210,6 +225,7 @@ public class StudentCtl extends BaseCtl {
 			e.printStackTrace();
 		}
 		model.addAttribute("nextlist", next.size());
+		log.debug("StudentCtl StudentListCtl method  submit End");
 		return "StudentListView";
 	}
 

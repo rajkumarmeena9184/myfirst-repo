@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import org.apache.log4j.Logger;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,9 +49,18 @@ import in.co.sunrays.proj0.service.RoleServiceInt;
 import in.co.sunrays.proj0.service.UserServiceInt;
 import in.co.sunrays.proj0.util.Util;
 
+/**
+ * Contains navigation logics for User, UserList, MyProfile,
+ * ChangePassword,RegisterUser,Authentication usecases.
+ *
+ * @author SunilOS
+ * @version 1.0
+ * @Copyright (c) SunilOS
+ */
 @Controller
 @RequestMapping(value = "/ctl/User")
 public class UserCtl extends BaseCtl {
+	Logger log = Logger.getLogger(UserCtl.class);
 	@Autowired
 	private UserServiceInt userService;
 
@@ -61,6 +71,7 @@ public class UserCtl extends BaseCtl {
 	private MessageSource messageSource;
 
 	public void preload(Model model) {
+		log.debug("UserCtl Method preload Start");
 		List list = null;
 		try {
 			list = (List) roleService.list();
@@ -69,14 +80,16 @@ public class UserCtl extends BaseCtl {
 			e.printStackTrace();
 		}
 		model.addAttribute("roleList", list);
-
+		log.debug("UserCtl Method preloadt End");
 	}
 
 	@ModelAttribute("genderList")
 	public Map<String, String> getGenderList() {
+		log.debug("UserCtl Method getGenderList Start");
 		Map<String, String> genderList = new HashMap<String, String>();
 		genderList.put("m", "Male");
 		genderList.put("f", "FeMale");
+		log.debug("UserCtl Method getGenderList End");
 		return genderList;
 	}
 
@@ -89,7 +102,7 @@ public class UserCtl extends BaseCtl {
 	@RequestMapping(value = "/AddUser", method = RequestMethod.GET)
 	public String display(@RequestParam(required = false) Long id, @ModelAttribute("form") UserForm form, Model model,
 			Locale locale) {
-
+		log.debug("UserCtl Method display AddUser Start");
 		if (id != null && id > 0) {
 			UserDTO dto = null;
 			try {
@@ -100,12 +113,14 @@ public class UserCtl extends BaseCtl {
 				e.printStackTrace();
 			}
 		}
+		log.debug("UserCtl Method display AddUser End");
 		return "UserView";
 	}
 
 	@RequestMapping(value = "/AddUser", method = RequestMethod.POST)
 	public String submit(@RequestParam(required = false) Long id, @ModelAttribute("form") @Valid UserForm form,
 			BindingResult result, Model model, Locale locale) {
+		log.debug("UserCtl Method submit AddUser Start");
 		if (OP_SAVE.equalsIgnoreCase(form.getOperation())) {
 
 			if (result.hasErrors()) {
@@ -145,13 +160,15 @@ public class UserCtl extends BaseCtl {
 			return "redirect:/ctl/User/AddUser";
 		}
 		if (OP_CANCEL.equalsIgnoreCase(form.getOperation())) {
-			return "redirect:/ctl/User/AddUser";
+			return "redirect:/ctl/User/UserListCtl";
 		}
+		log.debug("UserCtl Method submit AddUser End");
 		return "UserView";
 	}
 
 	@RequestMapping(value = "/MyProfileCtl", method = RequestMethod.GET)
 	public String display(@ModelAttribute("form") MyProfileForm form, HttpSession session, Model model, Locale locale) {
+		log.debug("UserCtl Method display MyProfileCtl Start");
 		UserDTO dto = (UserDTO) session.getAttribute("user");
 
 		try {
@@ -162,7 +179,7 @@ public class UserCtl extends BaseCtl {
 		}
 
 		form.populate(dto);
-
+		log.debug("UserCtl Method display MyProfileCtl End");
 		return "MyProfileView";
 
 	}
@@ -170,6 +187,7 @@ public class UserCtl extends BaseCtl {
 	@RequestMapping(value = "/MyProfileCtl", method = RequestMethod.POST)
 	public String submit(@ModelAttribute("form") @Valid MyProfileForm form, BindingResult result, Model model,
 			Locale locale, HttpSession session) throws DuplicateRecordException {
+		log.debug("UserCtl Method submit MyProfileCtl Start");
 		if (OP_SAVE.equalsIgnoreCase(form.getOperation())) {
 			if (result.hasErrors()) {
 				return "MyProfileView";
@@ -200,7 +218,7 @@ public class UserCtl extends BaseCtl {
 		if (OP_CHANGEPASSWORD.equalsIgnoreCase(form.getOperation())) {
 			return "redirect:/ctl/User/ChangePasswordCtl";
 		}
-
+		log.debug("UserCtl Method submit MyProfileCtl End");
 		return "MyProfileView";
 	}
 
@@ -213,6 +231,7 @@ public class UserCtl extends BaseCtl {
 	public String submit(@RequestParam(required = false) Long id,
 			@ModelAttribute("form") @Valid ChangePasswordForm form, BindingResult result, Model model,
 			HttpSession session, Locale locale) {
+		log.debug("UserCtl Method submit ChangePasswordCtl Start");
 		if (OP_MYPROFILE.equalsIgnoreCase(form.getOperation())) {
 
 			return "redirect:/ctl/User/MyProfileCtl";
@@ -248,7 +267,7 @@ public class UserCtl extends BaseCtl {
 				model.addAttribute("error", msg);
 			}
 		}
-
+		log.debug("UserCtl Method submit ChangePasswordCtl End");
 		return "ChangePasswordView";
 	}
 
@@ -261,6 +280,7 @@ public class UserCtl extends BaseCtl {
 		 * enterLastName = messageSource.getMessage("label.enterlname", null, locale);
 		 * model.addAttribute("enterLastName", enterLastName);
 		 */
+		log.debug("UserCtl Method display UserListCtl Start");
 		int pageNo = form.getPageNo();
 
 		List list = null;
@@ -282,6 +302,7 @@ public class UserCtl extends BaseCtl {
 		model.addAttribute("nextlistsize", next.size());
 
 		System.out.println("user List Ctl get Method");
+		log.debug("UserCtl Method display UserListCtl End");
 		return "UserListView";
 	}
 
@@ -295,10 +316,10 @@ public class UserCtl extends BaseCtl {
 		 * enterLastName = messageSource.getMessage("label.enterlname", null, locale);
 		 * model.addAttribute("enterLastName", enterLastName);
 		 */
-		if (result.hasErrors()) {
-			return "UserListView";
-		}
-
+		/*
+		 * if (result.hasErrors()) { return "UserListView"; }
+		 */
+		log.debug("UserCtl Method Submit UserListCtl Start");
 		int pageNo = (form.getPageNo() == 0) ? 1 : form.getPageNo();
 		int pageSize = form.getPageSize();
 
@@ -360,7 +381,7 @@ public class UserCtl extends BaseCtl {
 			e.printStackTrace();
 		}
 		model.addAttribute("nextlistsize", next.size());
-
+		log.debug("UserCtl Method Submit UserListCtl End");
 		return "UserListView";
 
 	}

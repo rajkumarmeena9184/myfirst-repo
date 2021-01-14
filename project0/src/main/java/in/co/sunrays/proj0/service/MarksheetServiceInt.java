@@ -2,6 +2,8 @@ package in.co.sunrays.proj0.service;
 
 import java.util.List;
 
+import org.springframework.dao.DataAccessException;
+
 import in.co.sunrays.proj0.dto.MarksheetDTO;
 import in.co.sunrays.proj0.exception.DataBaseException;
 import in.co.sunrays.proj0.exception.DuplicateRecordException;
@@ -23,5 +25,7 @@ public interface MarksheetServiceInt {
 	public List search(MarksheetDTO dto, int pageNo, int pageSize) throws DataBaseException;
 
 	public List search(MarksheetDTO dto) throws DataBaseException;
+	
+	public List meritList(int pageNo, int pageSize) throws DataAccessException;
 
 }

@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.context.MessageSource;
@@ -35,13 +36,16 @@ import in.co.sunrays.proj0.service.UserServiceInt;
 @Controller
 @SessionAttributes("user")
 public class LoginCtl extends BaseCtl {
-
+	Logger log = Logger.getLogger(LoginCtl.class);
 	@Autowired
 	private UserServiceInt userService = null;
 
 	@Autowired
 	private RoleServiceInt roleService = null;
 
+	/**
+	 * i18n MessageSource
+	 */
 	@Autowired
 	private MessageSource messageSource = null;
 	protected static final String OP_SIGNIN = "SignIn";
@@ -54,18 +58,25 @@ public class LoginCtl extends BaseCtl {
 		binder.registerCustomEditor(String.class, stringTrimmmer);
 	}
 
+	/**
+	 * GetGenderList of LoginCtl
+	 * 
+	 * @return genderList
+	 */
 	@ModelAttribute("genderList")
 	public Map<String, String> getGenderList() {
+		log.debug("LoginCtl method getGenderList started");
 		Map<String, String> genderList = new HashMap<String, String>();
 		genderList.put("m", "Male");
 		genderList.put("f", "Female");
+		log.debug("LoginCtl method getGenderList End");
 		return genderList;
 	}
 
 	@RequestMapping(value = "/LoginCtl", method = RequestMethod.GET)
 	public String Display(@RequestParam(required = false, defaultValue = "null") String signout,
 			@ModelAttribute("form") LoginForm form, Model model, HttpSession session, Locale locale) {
-
+		log.debug("LoginCtl Method Display LoginCtl Start");
 		String email = messageSource.getMessage("label.enteremail", null, locale);
 		model.addAttribute("email", email);
 
@@ -83,12 +94,14 @@ public class LoginCtl extends BaseCtl {
 			String successLogout = messageSource.getMessage("message.logout", null, locale);
 			model.addAttribute("success", successLogout);
 		}
+		log.debug("LoginCtl Method Display LoginCtl End");
 		return "LoginView";
 	}
 
 	@RequestMapping(value = "/LoginCtl", method = RequestMethod.POST)
 	public String Submit(@ModelAttribute("form") @Valid LoginForm form, BindingResult result, HttpSession session,
 			Model model, Locale locale) throws DataBaseException {
+		log.debug("LoginCtl Method Submit LoginCtl Start");
 		String email = messageSource.getMessage("label.enteremail", null, locale);
 		model.addAttribute("email", email);
 
@@ -111,17 +124,19 @@ public class LoginCtl extends BaseCtl {
 			dto = userService.authenticate(dto);
 			if (dto != null) {
 				UserDTO edto = userService.findByPK(dto.getId());
-				// RoleDTO roleDto = roleService.findByPK(edto.getRoleId());
-				/*
-				 * if (roleDto != null) { edto.setRoleName(roleDto.getRoleName()); }
-				 */
+				RoleDTO roleDto = roleService.findByPK(edto.getRoleId());
+
+				if (roleDto != null) {
+					edto.setRoleName(roleDto.getRoleName());
+				}
+
 				model.addAttribute("user", edto);
 				// URI Concept
 
 				if (form.getUri() == null || form.getUri().toString().trim() == "") {
 					return "WelcomeView";
 				} else {
-					return "redirect:" + form.getUri().replace("/Project0", form.toString().trim());
+					return "redirect:" + form.getUri().replace("/Project0", "".toString().trim());
 				}
 
 			} else {
@@ -132,12 +147,13 @@ public class LoginCtl extends BaseCtl {
 				return "LoginView";
 			}
 		}
+		log.debug("LoginCtl Method Submit LoginCtl End");
 		return "redirect:/Welcome";
 	}
 
 	@RequestMapping(value = "/Registration", method = RequestMethod.GET)
 	public String display(@ModelAttribute("form") UserRegistrationForm form, Model model, Locale locale) {
-
+		log.debug("LoginCtl Method display Registration Start");
 		/*
 		 * String firstName = messageSource.getMessage("label.firstName", null, locale);
 		 * model.addAttribute("firstName", firstName);
@@ -173,13 +189,14 @@ public class LoginCtl extends BaseCtl {
 		 * String mobileNo = messageSource.getMessage("", null, locale);
 		 * model.addAttribute("mobileNo", mobileNo);
 		 */
+		log.debug("LoginCtl Method display Registration End");
 		return "UserRegistrationView";
 	}
 
 	@RequestMapping(value = "/Registration", method = RequestMethod.POST)
 	public String submit(@ModelAttribute("form") @Valid UserRegistrationForm form, BindingResult result, Model model,
 			Locale locale) {
-
+		log.debug("LoginCtl Method submit Registration Start");
 		if (OP_RESET.equalsIgnoreCase(form.getOperation())) {
 			return "redirect:/Registration";
 		}
@@ -215,21 +232,23 @@ public class LoginCtl extends BaseCtl {
 			}
 			// return "redirect:/Registration";
 		}
+		log.debug("LoginCtl Method submit Registration End");
 		return "UserRegistrationView";
 	}
 
 	@RequestMapping(value = "/ForgotPassword", method = RequestMethod.GET)
 	public String display(@ModelAttribute("form") ForgetPasswordForm form, Model model, Locale locale) {
-
+		log.debug("LoginCtl Method display ForgotPassword Start");
 		String email = messageSource.getMessage("label.enteremail", null, locale);
 		model.addAttribute("email", email);
+		log.debug("LoginCtl Method display ForgotPassword End");
 		return "ForgetPasswordView";
 	}
 
 	@RequestMapping(value = "/ForgotPassword", method = RequestMethod.POST)
 	public String submit(@ModelAttribute("form") @Valid ForgetPasswordForm form, BindingResult results, Model model,
 			Locale locale) {
-
+		log.debug("LoginCtl Method submit ForgotPassword Start");
 		String email = messageSource.getMessage("label.enteremail", null, locale);
 		model.addAttribute("email", email);
 		if (OP_CANCEL.equalsIgnoreCase(form.getOperation())) {
@@ -254,6 +273,7 @@ public class LoginCtl extends BaseCtl {
 				e.printStackTrace();
 			}
 		}
+		log.debug("LoginCtl Method submit ForgotPassword End");
 		return "ForgetPasswordView";
 	}
 }

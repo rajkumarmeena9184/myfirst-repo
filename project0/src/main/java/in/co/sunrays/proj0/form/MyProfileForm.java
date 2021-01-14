@@ -9,7 +9,12 @@ import org.hibernate.validator.constraints.NotEmpty;
 import in.co.sunrays.proj0.dto.BaseDTO;
 import in.co.sunrays.proj0.dto.UserDTO;
 import in.co.sunrays.proj0.util.Util;
-
+/**
+ * Contains MyProfile form elements and their declarative input validations.
+ * 
+ * @author Iterator
+ * @version 1.0 Copyright (c) Iterator
+ */
 public class MyProfileForm extends BaseForm {
 	/**
 	 * FirstName of MyProfileForm

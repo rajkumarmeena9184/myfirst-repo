@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.validation.Valid;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.context.MessageSource;
@@ -29,11 +30,17 @@ import in.co.sunrays.proj0.service.CollegeServiceInt;
 import in.co.sunrays.proj0.service.CourseServiceInt;
 import in.co.sunrays.proj0.service.FacultyServiceInt;
 import in.co.sunrays.proj0.service.SubjectServiceInt;
-
+/**
+ * Contains navigation logics for Faculty and Faculty List Usecases.
+ *
+ * @author SunilOS
+ * @version 1.0
+ * @Copyright (c) SunilOS
+ */
 @Controller
 @RequestMapping(value = "/ctl/Faculty")
 public class FacultyCtl extends BaseCtl {
-
+	Logger log = Logger.getLogger(FacultyCtl.class);
 	@Autowired
 	private FacultyServiceInt service;
 
@@ -46,6 +53,9 @@ public class FacultyCtl extends BaseCtl {
 	@Autowired
 	private CourseServiceInt courseservice;
 
+	/**
+	 * i18n Message Soursce
+	 */
 	@Autowired
 	private MessageSource messageSource;
 
@@ -55,8 +65,12 @@ public class FacultyCtl extends BaseCtl {
 		binder.registerCustomEditor(String.class, stringtrimmer);
 	}
 
+	/**
+	 * preload Method of FacultyCtl
+	 */
 	@Override
 	public void preload(Model model) {
+		log.debug("FacultyCtl method preload started");
 		List<CollegeDTO> list = null;
 		List list1 = null;
 		List list2 = null;
@@ -71,22 +85,28 @@ public class FacultyCtl extends BaseCtl {
 		model.addAttribute("collegeList", list);
 		model.addAttribute("courseList", list1);
 		model.addAttribute("subjectList", list2);
-
+		log.debug("FacultyCtl method preload End");
 	}
 
+	/**
+	 * GetGenderList of FacultyCtl
+	 * 
+	 * @return genderList
+	 */
 	@ModelAttribute("genderList")
 	public Map<String, String> getGenderList() {
+		log.debug("FacultyCtl method getGenderList Started");
 		Map<String, String> genderList = new HashMap<String, String>();
 		genderList.put("m", "Male");
 		genderList.put("f", "FeMale");
+		log.debug("FacultyCtl method getGenderList End");
 		return genderList;
 	}
 
 	@RequestMapping(value = "/AddFaculty", method = RequestMethod.GET)
 	public String display(@RequestParam(required = false) Long id, @ModelAttribute("form") FacultyForm form,
 			Model model, Locale locale) {
-		System.out.println("hello");
-
+		log.debug("FacultyCtl method display addFaculty Started");
 		if (id != null && id > 0) {
 			FacultyDTO dto = null;
 			try {
@@ -97,14 +117,14 @@ public class FacultyCtl extends BaseCtl {
 			}
 			form.populate(dto);
 		}
-
+		log.debug("FacultyCtl method display addFaculty End");
 		return "FacultyView";
 	}
 
 	@RequestMapping(value = "/AddFaculty", method = RequestMethod.POST)
 	public String submit(@ModelAttribute("form") @Valid FacultyForm form, BindingResult result, Model model,
 			Locale locale) {
-
+		log.debug("FacultyCtl method submit addFaculty Started");
 		if (OP_SAVE.equalsIgnoreCase(form.getOperation())) {
 			if (result.hasErrors()) {
 				return "FacultyView";
@@ -115,14 +135,13 @@ public class FacultyCtl extends BaseCtl {
 			if (dto.getId() > 0) {
 				try {
 					service.update(dto);
-					String msg = messageSource.getMessage("message.updatesuccess", null, locale);
-					model.addAttribute("success", msg);
 				} catch (DuplicateRecordException e) {
-					String msg = messageSource.getMessage("error.loginid", null, locale);
-					model.addAttribute("error", msg);
+					// TODO Auto-generated catch block
+					System.out.println("catch faculty ctl");
 					e.printStackTrace();
 				}
-
+				String msg = messageSource.getMessage("message.updatesuccess", null, locale);
+				model.addAttribute("success", msg);
 			} else {
 				try {
 					service.add(dto);
@@ -141,14 +160,14 @@ public class FacultyCtl extends BaseCtl {
 		if (OP_CANCEL.equalsIgnoreCase(form.getOperation())) {
 			return "redirect:/ctl/Faculty/FacultyListCtl";
 		}
-
+		log.debug("FacultyCtl method submit addFaculty End");
 		return "FacultyView";
 	}
 
 	@RequestMapping(value = "/FacultyListCtl", method = RequestMethod.GET)
 	public String display(@RequestParam(required = false) String operation, @ModelAttribute("form") FacultyForm form,
 			Model model, Locale locale) {
-
+		log.debug("FacultyCtl method display FacultyList Started");
 		int pageNo = form.getPageNo();
 		int pageSize = form.getPageSize();
 		List list = null;
@@ -167,13 +186,14 @@ public class FacultyCtl extends BaseCtl {
 			e.printStackTrace();
 		}
 		model.addAttribute("nextlist", next.size());
+		log.debug("FacultyCtl method display FacultyList End");
 		return "FacultyListView";
 	}
 
 	@RequestMapping(value = "/FacultyListCtl", method = RequestMethod.POST)
 	public String submit(@RequestParam(required = false) String operation, @ModelAttribute("form") FacultyForm form,
 			Model model, Locale locale) {
-
+		log.debug("FacultyCtl method submit FacultyList Started");
 		int pageNo = (form.getPageNo() == 0) ? 1 : form.getPageNo();
 		int pageSize = form.getPageSize();
 		List list = null;
@@ -234,6 +254,7 @@ public class FacultyCtl extends BaseCtl {
 			e.printStackTrace();
 		}
 		model.addAttribute("nextlist", next.size());
+		log.debug("FacultyCtl method submit FacultyList End");
 		return "FacultyListView";
 	}
 

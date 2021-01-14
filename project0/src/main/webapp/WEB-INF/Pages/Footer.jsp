@@ -25,7 +25,7 @@
 </head>
 <body>
 	<div class="container-fluid">
-		<div class="footer" style="background-color: rgb(125, 125, 125);">
+		<div class="footer" style="background-color: rgb(26, 82, 118);">
 			<p style="color: white;" class="text-center">
 				&copy CopyRight<%=Calendar.getInstance().getWeekYear()%>:Rays
 				Technology

@@ -57,16 +57,16 @@ body {
 				<div class="card" style="background-color: rgb(255, 255, 255);">
 					<article class="card-body">
 						<c:choose>
-							<c:when test="${form.id==1}">
+							<c:when test="${form.id==0}">
 								<h4 class="card-title text-center mb-4 mt-1"
 									style="color: #C71585;">
-									<s:message code="label.updatemarksheet"></s:message>
+									<s:message code="label.addmarksheet"></s:message>
 								</h4>
 							</c:when>
 							<c:otherwise>
 								<h4 class="card-title text-center mb-4 mt-1"
 									style="color: #C71585;">
-									<s:message code="label.addmarksheet"></s:message>
+									<s:message code="label.updatemarksheet"></s:message>
 								</h4>
 							</c:otherwise>
 						</c:choose>
@@ -241,8 +241,7 @@ body {
 						</c:choose>
 				</div>
 				</article>
-				<br> <br>
-				<br>
+				<br> <br> <br>
 			</aside>
 		</div>
 	</sf:form>

@@ -9,7 +9,12 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import in.co.sunrays.proj0.dto.BaseDTO;
 import in.co.sunrays.proj0.dto.SubjectDTO;
-
+/**
+ * Contains Subject form elements and their declarative input validations.
+ * 
+ * @author Iterator
+ * @version 1.0 Copyright (c) Iterator
+ */
 public class SubjectForm extends BaseForm {
 
 	/**

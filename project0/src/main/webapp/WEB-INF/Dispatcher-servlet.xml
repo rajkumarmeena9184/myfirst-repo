@@ -22,15 +22,6 @@
 		location="/resources/" />
 
 
-	<bean id="viewResolver"
-		class="org.springframework.web.servlet.view.UrlBasedViewResolver">
-		<property name="viewClass">
-			<value>
-				org.springframework.web.servlet.view.tiles3.TilesView
-			</value>
-		</property>
-	</bean>
-
 	<!--Tiles configuration start -->
 	<bean id="tilesConfigurer"
 		class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
@@ -38,6 +29,15 @@
 			<list>
 				<value>/WEB-INF/tiles.xml</value>
 			</list>
+		</property>
+	</bean>
+
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+		<property name="viewClass">
+			<value>
+				org.springframework.web.servlet.view.tiles3.TilesView
+			</value>
 		</property>
 	</bean>
 
@@ -84,9 +84,13 @@
 		<property name="validationMessageSource" ref="messageSource" />
 	</bean>
 	<!-- Apply Front Controller -->
-	<!-- <mvc:interceptors> <mvc:interceptor> <mvc:mapping path="/ctl/**/*" 
-		/> <mvc:mapping path="/resources/doc/**/*" /> <bean class="in.co.sunrays.proj0.controller.FrontControllerCtl" 
-		/> </mvc:interceptor> </mvc:interceptors> -->
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/ctl/**/*" />
+			<mvc:mapping path="/resources/javadoc/**/*" />
+			<bean class="in.co.sunrays.proj0.controller.FrontControllerCtl" />
+		</mvc:interceptor>
+	</mvc:interceptors>
 	<!-- Mail Sender Start -->
 	<bean id="mailSender"
 		class="org.springframework.mail.javamail.JavaMailSenderImpl">

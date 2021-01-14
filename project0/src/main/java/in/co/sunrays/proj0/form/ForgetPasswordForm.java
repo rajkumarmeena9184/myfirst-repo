@@ -7,8 +7,10 @@ import in.co.sunrays.proj0.dto.BaseDTO;
 import in.co.sunrays.proj0.dto.UserDTO;
 
 /**
- * @author Dell
- *
+ * Contains ForgetPassword form elements and their declarative input validations.
+ * 
+ * @author Iterator
+ * @version 1.0 Copyright (c) Iterator
  */
 public class ForgetPasswordForm extends BaseForm {
 	/**

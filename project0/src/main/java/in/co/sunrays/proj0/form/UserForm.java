@@ -13,22 +13,52 @@ import in.co.sunrays.proj0.dto.BaseDTO;
 import in.co.sunrays.proj0.dto.UserDTO;
 import in.co.sunrays.proj0.util.Util;
 
+/**
+ * Contains User form elements and their declarative input validations.
+ * 
+ * @author Iterator
+ * @version 1.0 Copyright (c) Iterator
+ */
 public class UserForm extends BaseForm {
-	@NotEmpty
+	/**
+	 * FirstName of userForm
+	 */
+	@NotEmpty(message = "{NotEmpty.form.firstName}")
 	private String firstName;
+	/**
+	 * LastName of userForm
+	 */
 	@NotEmpty
 	private String lastName;
+	/**
+	 * Login of userForm
+	 */
 	@NotEmpty
 	@Email
 	private String login;
+	/**
+	 * Password of userForm
+	 */
 	@NotEmpty
 	private String password;
+	/**
+	 * ConfirmPassword of userForm
+	 */
 	@NotEmpty
 	private String confirmPassword;
+	/**
+	 * Gender of userForm
+	 */
 	@NotEmpty
 	private String gender;
+	/**
+	 * Date Of Birth of userForm
+	 */
 	@NotEmpty
 	private String dob;
+	/**
+	 * MobileNo of userForm
+	 */
 	@NotEmpty
 	private String mobileNo;
 	// @NotEmpty
@@ -36,6 +66,9 @@ public class UserForm extends BaseForm {
 	@Min(value = 1)
 	private long roleId;
 
+	/**
+	 * accessor
+	 */
 	public String getFirstName() {
 		return firstName;
 	}
@@ -123,6 +156,7 @@ public class UserForm extends BaseForm {
 		dto.setLastName(lastName);
 		dto.setEmailId(login);
 		dto.setPassword(password);
+		dto.setConfirmPassword(confirmPassword);
 		if (dob != " ") {
 			dto.setDob(Util.getDate(dob));
 		}

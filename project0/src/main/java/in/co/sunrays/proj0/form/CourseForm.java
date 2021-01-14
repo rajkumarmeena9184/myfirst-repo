@@ -7,7 +7,12 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import in.co.sunrays.proj0.dto.BaseDTO;
 import in.co.sunrays.proj0.dto.CourseDTO;
-
+/**
+ * Contains Course form elements and their declarative input validations.
+ * 
+ * @author Iterator
+ * @version 1.0 Copyright (c) Iterator
+ */
 public class CourseForm extends BaseForm {
 
 	/**
@@ -52,7 +57,7 @@ public class CourseForm extends BaseForm {
 		this.description = description;
 	}
 
-	public BaseDTO getdDto() {
+	public BaseDTO getDto() {
 		CourseDTO dto = new CourseDTO();
 		dto.setId(id);
 		dto.setName(name);

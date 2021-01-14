@@ -5,7 +5,12 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import in.co.sunrays.proj0.dto.BaseDTO;
 import in.co.sunrays.proj0.dto.UserDTO;
-
+/**
+ * Contains Login form elements and their declarative input validations.
+ * 
+ * @author Iterator
+ * @version 1.0 Copyright (c) Iterator
+ */
 public class LoginForm extends BaseForm {
 	/**
 	 * Email Id Of LoginForm

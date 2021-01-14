@@ -23,10 +23,11 @@
 	<div class="container-fluid">
 		<tiles:insertAttribute name="menu"></tiles:insertAttribute>
 		<div class="row " id="AllBody">
-			<div class=""></div>
-			<div class="col-sm-12">
+			<div class="col-sm-1"></div>
+			<div class="col-sm-11">
 				<tiles:insertAttribute name="body"></tiles:insertAttribute>
 			</div>
+			<div class=""></div>
 		</div>
 
 	</div>

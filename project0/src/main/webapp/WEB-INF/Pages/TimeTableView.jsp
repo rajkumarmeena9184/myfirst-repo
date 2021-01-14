@@ -69,16 +69,16 @@ body {
 				<div class="card" style="background-color: rgb(255, 255, 255);">
 					<article class="card-body">
 						<c:choose>
-							<c:when test="${form.id==1}">
+							<c:when test="${form.id==0}">
 								<h4 class="card-title text-center mb-4 mt-1"
 									style="color: #C71585;">
-									<s:message code="label.updatetimetable"></s:message>
+									<s:message code="label.addtimetable"></s:message>
 								</h4>
 							</c:when>
 							<c:otherwise>
 								<h4 class="card-title text-center mb-4 mt-1"
 									style="color: #C71585;">
-									<s:message code="label.addtimetable"></s:message>
+									<s:message code="label.updatetimetable"></s:message>
 								</h4>
 							</c:otherwise>
 						</c:choose>
@@ -169,9 +169,9 @@ body {
 									</sf:option>
 
 									<sf:option value="09:00 AM to 12:00 PM"
-										label="09:00 PM to 03:00 PM"></sf:option>
-									<sf:option value="10:00 PM to 01:00 PM"
-										label="10:00 PM to 01:00 PM"></sf:option>
+										label="09:00 AM to 12:00 PM"></sf:option>
+									<sf:option value="10:00 AM to 01:00 PM"
+										label="10:00 AM to 01:00 PM"></sf:option>
 									<sf:option value="12:00 PM to 03:00 PM"
 										label="12:00 PM to 03:00 PM"></sf:option>
 									<sf:option value="01:00 PM to 04:00 PM"

@@ -5,6 +5,7 @@ import java.util.Locale;
 
 import javax.validation.Valid;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.context.MessageSource;
@@ -23,14 +24,24 @@ import in.co.sunrays.proj0.exception.DataBaseException;
 import in.co.sunrays.proj0.exception.DuplicateRecordException;
 import in.co.sunrays.proj0.form.CollegeForm;
 import in.co.sunrays.proj0.service.CollegeServiceInt;
-
+/**
+ * Contains navigation logics for College and College List Usecases.
+ *
+ * @author SunilOS
+ * @version 1.0
+ * @Copyright (c) SunilOS
+ */
 @Controller
 @RequestMapping(value = "/ctl/College")
 public class CollegeCtl extends BaseCtl {
+	Logger log = Logger.getLogger(CollegeCtl.class);
 
 	@Autowired
 	private CollegeServiceInt service;
 
+	/**
+	 * i18n Message Source
+	 */
 	@Autowired
 	private MessageSource messageSource;
 
@@ -43,6 +54,7 @@ public class CollegeCtl extends BaseCtl {
 	@RequestMapping(value = "/AddCollege", method = RequestMethod.GET)
 	public String display(@RequestParam(required = false) Long id, @ModelAttribute("form") CollegeForm form,
 			Model model, Locale locale) {
+		log.debug("CollegeCtl Method Display AddCollege is Started ");
 		if (id != null && id > 0) {
 			CollegeDTO dto = null;
 			try {
@@ -53,36 +65,36 @@ public class CollegeCtl extends BaseCtl {
 			}
 			form.populate(dto);
 		}
-
+		log.debug("CollegeCtl Method Display AddCollege is End ");
 		return "CollegeView";
 	}
 
 	@RequestMapping(value = "/AddCollege", method = RequestMethod.POST)
 	public String submit(@RequestParam(required = false) Long id, @ModelAttribute("form") @Valid CollegeForm form,
 			BindingResult result, Model model, Locale locale) throws DuplicateRecordException {
-
+		log.debug("CollegeCtl Method Submit AddCollege is Started ");
 		if (OP_SAVE.equalsIgnoreCase(form.getOperation())) {
 			if (result.hasErrors()) {
 				return "CollegeView";
 			}
 
 			CollegeDTO dto = (CollegeDTO) form.getDto();
-			try {
 
-				if (id > 0) {
-					service.update(dto);
-					String msg = messageSource.getMessage("message.updatesuccess", null, locale);
-					model.addAttribute("success", msg);
-				} else {
+			if (id > 0) {
+				service.update(dto);
+				String msg = messageSource.getMessage("message.updatesuccess", null, locale);
+				model.addAttribute("success", msg);
+			} else {
+				try {
 					service.add(dto);
-					System.out.println("save 2");
 					String msg = messageSource.getMessage("message.success", null, locale);
 					model.addAttribute("success", msg);
+				} catch (DuplicateRecordException e) {
+					String msg = messageSource.getMessage("error.collegename", null, locale);
+					model.addAttribute("error", msg);
 				}
-			} catch (DuplicateRecordException e) {
-				String msg = messageSource.getMessage("error.collegename", null, locale);
-				model.addAttribute("error", msg);
 			}
+
 		}
 
 		if (OP_RESET.equalsIgnoreCase(form.getOperation())) {
@@ -91,14 +103,14 @@ public class CollegeCtl extends BaseCtl {
 		if (OP_CANCEL.equalsIgnoreCase(form.getOperation())) {
 			return "redirect:/ctl/College/CollegeListCtl";
 		}
-
+		log.debug("CollegeCtl Method Submit AddCollege is End ");
 		return "CollegeView";
 	}
 
 	@RequestMapping(value = "/CollegeListCtl", method = RequestMethod.GET)
 	public String display(@RequestParam(required = false) String operation, @ModelAttribute("form") CollegeForm form,
 			Model model, Locale locale) {
-
+		log.debug("CollegeCtl Method display CollegeListCtl is Started ");
 		int pageNo = form.getPageNo();
 		int pageSize = form.getPageSize();
 		List list = null;
@@ -117,13 +129,14 @@ public class CollegeCtl extends BaseCtl {
 			e.printStackTrace();
 		}
 		model.addAttribute("nextlist", next.size());
+		log.debug("CollegeCtl Method display CollegeListCtl is End ");
 		return "CollegeListView";
 	}
 
 	@RequestMapping(value = "/CollegeListCtl", method = RequestMethod.POST)
 	public String submit(@RequestParam(required = false) String operation, @ModelAttribute("form") CollegeForm form,
 			Model model, BindingResult result, Locale locale) {
-
+		log.debug("CollegeCtl Method submit CollegeListCtl is Started ");
 		if (result.hasErrors()) {
 			return "CollegeListView";
 		}
@@ -188,6 +201,7 @@ public class CollegeCtl extends BaseCtl {
 			e.printStackTrace();
 		}
 		model.addAttribute("nextlist", next.size());
+		log.debug("CollegeCtl Method submit CollegeListCtl is End ");
 		return "CollegeListView";
 	}
 }

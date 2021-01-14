@@ -11,7 +11,12 @@ import org.hibernate.validator.constraints.NotEmpty;
 import in.co.sunrays.proj0.dto.BaseDTO;
 import in.co.sunrays.proj0.dto.StudentDTO;
 import in.co.sunrays.proj0.util.Util;
-
+/**
+ * Contains Student form elements and their declarative input validations.
+ * 
+ * @author Iterator
+ * @version 1.0 Copyright (c) Iterator
+ */
 public class StudentForm extends BaseForm {
 	/**
 	 * FirstName of StudentForm
@@ -61,6 +66,14 @@ public class StudentForm extends BaseForm {
 	 */
 	@Min(value = 1)
 	private long collegeId;
+
+	public long getCollegeId() {
+		return collegeId;
+	}
+
+	public void setCollegeId(long collegeId) {
+		this.collegeId = collegeId;
+	}
 
 	public String getFirstName() {
 		return firstName;
@@ -118,14 +131,6 @@ public class StudentForm extends BaseForm {
 		this.collegeName = collegeName;
 	}
 
-	public long getCollegeId() {
-		return collegeId;
-	}
-
-	public void setCollegeId(long collegeId) {
-		this.collegeId = collegeId;
-	}
-
 	@Override
 	public BaseDTO getDto() {
 		StudentDTO dto = new StudentDTO();
@@ -151,6 +156,8 @@ public class StudentForm extends BaseForm {
 	public void populate(BaseDTO bdto) {
 		StudentDTO dto = (StudentDTO) bdto;
 		id = dto.getId();
+		firstName = dto.getFirstName();
+		lastName = dto.getLastName();
 		collegeId = dto.getCollegeId();
 		collegeName = dto.getCollegeName();
 		emailId = dto.getEmailId();

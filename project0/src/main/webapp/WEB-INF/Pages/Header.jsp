@@ -46,6 +46,8 @@
 <!-- <link rel="stylesheet" href="/resources/demos/style.css"> -->
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script type="text/javascript"
+	src="<c:url value="/resources/js/Checkbox11.js"/>"></script>
 <style type="text/css">
 .navbar-collapse.collapse.show {
 	max-height: 50%;
@@ -68,7 +70,7 @@
 <body>
 	<!-- navbar -->
 	<nav class="navbar navbar-expand-sm navbar-light fixed-top"
-		style="background-color: rgb(150, 150, 150);">
+		style="background-color: rgb(26, 82, 118);">
 		<a href=""><img
 			src="<c:url value=" /Project0/resources/img/logo.jpg"/>"
 			height="30px" width="80px;"></a>
@@ -156,8 +158,9 @@
 								class="fa fa-arrow-circle-right" area-hidden="true"></i>&nbsp;&nbsp;
 								<span style="color: #8A2BE2;"><s:message
 										code="label.getmarksheet"></s:message></span></a><a class="dropdown-item"
-								href="<c:url value=""/>"><i class="fa fa-user-circle"
-								area-hidden="true" style="color: #0f6810;"></i>&nbsp;&nbsp; <span
+								href="<c:url value="/ctl/Marksheet/MarksheetMeritListCtl"/>"><i
+								class="fa fa-user-circle" area-hidden="true"
+								style="color: #0f6810;"></i>&nbsp;&nbsp; <span
 								style="color: #8A2BE2;"><s:message
 										code="label.marksheetmeritlist"></s:message></span></a>
 						</div></li>
@@ -174,8 +177,8 @@
 						class="fa fa-user-circle" style="color: orange;"></i></span><span>
 						<c:if test="${not empty sessionScope.user }">
 							<c:set var="name" value="${sessionScope.user.firstName}"></c:set>
-							<%-- <c:set var="role" value="${sessionScope.user.role}"></c:set> --%>
-							<c:out value="${name}"></c:out>
+							<c:set var="role" value="${sessionScope.user.roleName}"></c:set>
+							<c:out value="${name}(${role})"></c:out>
 						</c:if> <c:if test="${empty sessionScope.user }">
 							<s:message code="label.hiGuest"></s:message>
 						</c:if>
@@ -197,7 +200,7 @@
 							style="color: #8A2BE2;"><s:message
 									code="label.changepassword"></s:message></span></a>
 
-						<a class="dropdown-item" target="blank" href="<c:url value=""/>"><i
+						<a class="dropdown-item" target="blank" href="<c:url value="/resources/javadoc/index.html"/>"><i
 							class="fas fa-caret-square-right" aria-hidden="true"
 							style="color: #0f6810;"></i><span style="color: #8A2BE2;"><s:message
 									code="label.javadoc"></s:message></span></a>

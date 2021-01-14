@@ -10,7 +10,12 @@ import org.hibernate.validator.constraints.NotEmpty;
 import in.co.sunrays.proj0.dto.BaseDTO;
 import in.co.sunrays.proj0.dto.TimeTableDTO;
 import in.co.sunrays.proj0.util.Util;
-
+/**
+ * Contains TimeTable form elements and their declarative input validations.
+ * 
+ * @author Iterator
+ * @version 1.0 Copyright (c) Iterator
+ */
 public class TimeTableForm extends BaseForm {
 
 	/**
@@ -28,19 +33,19 @@ public class TimeTableForm extends BaseForm {
 	/**
 	 * CourseName OF TimeTableForm
 	 */
-	//@NotEmpty
+	// @NotEmpty
 	private String courseName;
 
 	/**
 	 * SubjectName OF TimeTableForm
 	 */
-	//@NotEmpty
+	// @NotEmpty
 	private String subjectName;
 
 	/**
 	 * Name OF TimeTableForm
 	 */
-	//@NotEmpty
+	// @NotEmpty
 	private String name;
 
 	/**
@@ -135,7 +140,7 @@ public class TimeTableForm extends BaseForm {
 		dto.setSubjectName(subjectName);
 		dto.setSemester(semester);
 		dto.setExameTime(exameTime);
-		if (exameTime != null) {
+		if (exameDate != null) {
 			dto.setDate(Util.getDate(exameDate));
 		}
 		dto.setCreatedBy("root");
@@ -155,6 +160,8 @@ public class TimeTableForm extends BaseForm {
 		subjectName = dto.getSubjectName();
 		semester = dto.getExameTime();
 		exameDate = Util.getDate(dto.getDate());
+		exameTime = dto.getExameTime();
+		semester = dto.getSemester();
 		createdBy = dto.getCreatedBy();
 		modifiedBy = dto.getModifiedBy();
 		if (dto.getCreatedDateTime() != null) {

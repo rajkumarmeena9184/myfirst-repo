@@ -163,7 +163,7 @@ body {
 							<s:message code="label.update" />
 						</button>
 						<button type="submit" name="operation"
-							style="width: 150px; margin-left: 150px;" value="MyProfile"
+							style="width: 120px; margin-left: 50px;" value="MyProfile"
 							class="btn btn-warning btn-block button2">
 							<span class="fas fa-refresh"> </span>
 							<s:message code="label.myprofile" />

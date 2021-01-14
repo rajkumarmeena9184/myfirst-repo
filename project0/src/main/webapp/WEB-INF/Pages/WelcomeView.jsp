@@ -10,7 +10,7 @@
 <meta charset="ISO-8859-1">
 <style type="text/css">
 body {
-	background-image: url("/Project0/resources/img/back_4.jpg");
+	background-image: url("/Project0/resources/img/background.jpg");
 	background-size: cover;
 	background-repeat: no-repeat;
 	background-attachment: fixed;
@@ -22,7 +22,7 @@ body {
 </head>
 <body class="img-fluid">
 	<div class="container-fluid">
-		<div style="margin-top: 150px;" align="center">
+		<div style="margin-top: 100px;" align="center">
 			<font size="10"><span style="color: orange;"><s:message
 						code="label.welcomeors" /></span></font>
 		</div>

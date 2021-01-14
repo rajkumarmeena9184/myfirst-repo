@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.validation.Valid;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.context.MessageSource;
@@ -27,14 +28,23 @@ import in.co.sunrays.proj0.exception.DuplicateRecordException;
 import in.co.sunrays.proj0.form.CollegeForm;
 import in.co.sunrays.proj0.form.CourseForm;
 import in.co.sunrays.proj0.service.CourseServiceInt;
-
+/**
+ * Contains navigation logics for Course and Course List Usecases.
+ *
+ * @author SunilOS
+ * @version 1.0
+ * @Copyright (c) SunilOS
+ */
 @Controller
 @RequestMapping(value = "/ctl/Course")
 public class CourseCtl extends BaseCtl {
-
+	Logger log = Logger.getLogger(CourseCtl.class);
 	@Autowired
 	private CourseServiceInt service;
 
+	/**
+	 * i18n Message Source
+	 */
 	@Autowired
 	private MessageSource messageSource;
 
@@ -44,47 +54,54 @@ public class CourseCtl extends BaseCtl {
 		binder.registerCustomEditor(String.class, stringtrimmer);
 	}
 
+	/**
+	 * DurationList of Course
+	 * 
+	 * @param model
+	 * @return
+	 */
 	@ModelAttribute("durationList")
 	public Map<String, String> getDurationList(Model model) {
 		Map<String, String> durationList = new LinkedHashMap();
-
+		log.debug("CourseCtl Method GetDurationList Is started");
 		durationList.put("1 Year", "1 Year");
 		durationList.put("2 Years", "2 Years");
 		durationList.put("3 Years", "3 Years");
 		durationList.put("4 Years", "4 Years");
 		durationList.put("5 Years", "5 Years");
-
+		log.debug("CourseCtl Method GetDurationList Is End");
 		return durationList;
 	}
 
 	@RequestMapping(value = "/AddCourse", method = RequestMethod.GET)
 	public String display(@RequestParam(required = false) Long id, @ModelAttribute("form") CourseForm form,
 			BindingResult result, Model model, Locale locale) {
-
+		log.debug("CourseCtl Method display AddCourse Is started");
 		if (id != null && id > 0) {
 			CourseDTO dto = null;
 			try {
 				dto = service.findByPK(id);
 			} catch (DataBaseException e) {
 				// TODO Auto-generated catch block
+				log.error("CourseCtl Method display AddCourse DataBaseException");
 				e.printStackTrace();
 			}
 			form.populate(dto);
 		}
-
+		log.debug("CourseCtl Method display AddCourse Is End");
 		return "CourseView";
 	}
 
 	@RequestMapping(value = "/AddCourse", method = RequestMethod.POST)
 	public String submit(@ModelAttribute("form") @Valid CourseForm form, BindingResult result, Model model,
 			Locale locale) throws DuplicateRecordException {
-
+		log.debug("CourseCtl Method Submit AddCourse Is started");
 		if (OP_SAVE.equalsIgnoreCase(form.getOperation())) {
 			if (result.hasErrors()) {
 				return "CourseView";
 			}
 
-			CourseDTO dto = (CourseDTO) form.getdDto();
+			CourseDTO dto = (CourseDTO) form.getDto();
 
 			if (dto.getId() > 0) {
 				service.update(dto);
@@ -109,13 +126,14 @@ public class CourseCtl extends BaseCtl {
 			return "redirect:/ctl/Course/CourseListCtl";
 		}
 
+		log.debug("CourseCtl Method Submit AddCourse Is End");
 		return "CourseView";
 	}
 
 	@RequestMapping(value = "/CourseListCtl", method = RequestMethod.GET)
 	public String display(@RequestParam(required = false) String operation, @ModelAttribute("form") CourseForm form,
 			Model model, Locale locale) {
-
+		log.debug("CourseCtl Method Display CourseList Is started");
 		int pageNo = form.getPageNo();
 		int pageSize = form.getPageSize();
 		List list = null;
@@ -134,13 +152,14 @@ public class CourseCtl extends BaseCtl {
 			e.printStackTrace();
 		}
 		model.addAttribute("nextlist", next.size());
+		log.debug("CourseCtl Method Display CourseList Is End");
 		return "CourseListView";
 	}
 
 	@RequestMapping(value = "/CourseListCtl", method = RequestMethod.POST)
 	public String submit(@RequestParam(required = false) String operation, @ModelAttribute("form") CourseForm form,
 			Model model, BindingResult result, Locale locale) {
-
+		log.debug("CourseCtl Method Submit CourseList Is started");
 		if (result.hasErrors()) {
 			return "CourseListView";
 		}
@@ -204,6 +223,7 @@ public class CourseCtl extends BaseCtl {
 			e.printStackTrace();
 		}
 		model.addAttribute("nextlist", next.size());
+		log.debug("CourseCtl Method Submit CourseList Is End");
 		return "CourseListView";
 	}
 }

@@ -125,13 +125,13 @@ body {
 			function openNav() {
 				document.getElementById("mySidenav").style.width = "150px";
 				document.getElementById("menuB").style.visibility = "hidden";
-				document.getElementById("AllBody").style.marginLeft = "20px";
+				document.getElementById("AllBody").style.marginLeft = "40px";
 
 			}
 			function closeNav() {
 				document.getElementById("mySidenav").style.width = "0";
 				document.getElementById("menuB").style.visibility = "visible";
-				document.getElementById("AllBody").style.marginLeft = "-20px";
+				document.getElementById("AllBody").style.marginLeft = "-40px";
 			}
 		</script>
 	</c:if>

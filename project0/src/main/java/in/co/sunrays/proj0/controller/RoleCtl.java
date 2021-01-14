@@ -5,6 +5,7 @@ import java.util.Locale;
 
 import javax.validation.Valid;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.context.MessageSource;
@@ -26,10 +27,17 @@ import in.co.sunrays.proj0.form.FacultyForm;
 import in.co.sunrays.proj0.form.RoleForm;
 import in.co.sunrays.proj0.service.RoleServiceInt;
 
+/**
+ * Contains navigation logics for Role and Role List Usecases.
+ *
+ * @author SunilOS
+ * @version 1.0
+ * @Copyright (c) SunilOS
+ */
 @Controller
 @RequestMapping(value = "/ctl/Role")
 public class RoleCtl extends BaseCtl {
-
+	Logger log = Logger.getLogger(RoleCtl.class);
 	@Autowired
 	private RoleServiceInt roleService;
 
@@ -45,6 +53,7 @@ public class RoleCtl extends BaseCtl {
 	@RequestMapping(value = "/AddRole", method = RequestMethod.GET)
 	public String Display(@RequestParam(required = false) Long id, @ModelAttribute("form") RoleForm form, Model model,
 			Locale locale) {
+		log.debug("RoleCtl AddRole method Display Start");
 		if (id != null && id > 0) {
 			RoleDTO dto = null;
 			try {
@@ -55,14 +64,14 @@ public class RoleCtl extends BaseCtl {
 				e.printStackTrace();
 			}
 		}
-
+		log.debug("RoleCtl AddRole method Display End");
 		return "RoleView";
 	}
 
 	@RequestMapping(value = "/AddRole", method = RequestMethod.POST)
 	public String Submit(@RequestParam(required = false) Long id, @ModelAttribute("form") @Valid RoleForm form,
 			BindingResult result, Model model, Locale locale) {
-
+		log.debug("RoleCtl AddRole method Submit Start");
 		if (OP_SAVE.equalsIgnoreCase(form.getOperation())) {
 
 			if (result.hasErrors()) {
@@ -100,13 +109,14 @@ public class RoleCtl extends BaseCtl {
 			return "redirect:/ctl/Role/RoleListCtl";
 
 		}
+		log.debug("RoleCtl AddRole method Submit End");
 		return "RoleView";
 	}
 
 	@RequestMapping(value = "/RoleListCtl", method = RequestMethod.GET)
 	public String display(@RequestParam(required = false) String operation, @ModelAttribute("form") RoleForm form,
 			Model model, Locale locale) {
-
+		log.debug("RoleCtl RoleListCtl method display Start");
 		int pageNo = form.getPageNo();
 		int pageSize = form.getPageSize();
 		List list = null;
@@ -125,13 +135,14 @@ public class RoleCtl extends BaseCtl {
 			e.printStackTrace();
 		}
 		model.addAttribute("nextlist", next.size());
+		log.debug("RoleCtl RoleListCtl method display End");
 		return "RoleListView";
 	}
 
 	@RequestMapping(value = "/RoleListCtl", method = RequestMethod.POST)
 	public String submit(@RequestParam(required = false) String operation, @ModelAttribute("form") RoleForm form,
 			Model model, Locale locale) {
-
+		log.debug("RoleCtl RoleListCtl method submit Start");
 		int pageNo = (form.getPageNo() == 0) ? 1 : form.getPageNo();
 		int pageSize = form.getPageSize();
 		List list = null;
@@ -192,6 +203,7 @@ public class RoleCtl extends BaseCtl {
 			e.printStackTrace();
 		}
 		model.addAttribute("nextlist", next.size());
+		log.debug("RoleCtl RoleListCtl method submit End");
 		return "RoleListView";
 	}
 

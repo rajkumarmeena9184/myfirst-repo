@@ -13,7 +13,16 @@
 	<servlet-mapping>
 		<servlet-name>Dispatcher</servlet-name>
 		<url-pattern>/</url-pattern>
-
 	</servlet-mapping>
+
+	<error-page>
+		<error-code>404</error-code>
+		<location>/Pages/Error404.jsp</location>
+	</error-page>
+
+	<error-page>
+		<error-code>500</error-code>
+		<location>/Pages/Error500.jsp</location>
+	</error-page>
 
 </web-app>

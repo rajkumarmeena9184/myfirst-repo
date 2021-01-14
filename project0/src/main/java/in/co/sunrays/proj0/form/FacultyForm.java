@@ -11,7 +11,12 @@ import org.hibernate.validator.constraints.NotEmpty;
 import in.co.sunrays.proj0.dto.BaseDTO;
 import in.co.sunrays.proj0.dto.FacultyDTO;
 import in.co.sunrays.proj0.util.Util;
-
+/**
+ * Contains Faculty form elements and their declarative input validations.
+ * 
+ * @author Iterator
+ * @version 1.0 Copyright (c) Iterator
+ */
 public class FacultyForm extends BaseForm {
 
 	/**
@@ -35,19 +40,19 @@ public class FacultyForm extends BaseForm {
 	/**
 	 * Subject of Faculty
 	 */
-	//@NotEmpty
+	// @NotEmpty
 	private String subjectName;
 
 	/**
 	 * Course of Faculty
 	 */
-	//@NotEmpty
+	// @NotEmpty
 	private String courseName;
 
 	/**
 	 * College of Faculty
 	 */
-	//@NotEmpty
+	// @NotEmpty
 	private String collegeName;
 
 	/**
@@ -186,6 +191,7 @@ public class FacultyForm extends BaseForm {
 	@Override
 	public BaseDTO getDto() {
 		FacultyDTO dto = new FacultyDTO();
+		dto.setId(id);
 		dto.setCollegeId(collegeId);
 		dto.setCourseId(courseId);
 		dto.setSubjectId(subjectId);

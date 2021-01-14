@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.validation.Valid;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.context.MessageSource;
@@ -29,11 +30,17 @@ import in.co.sunrays.proj0.form.StudentForm;
 import in.co.sunrays.proj0.form.SubjectForm;
 import in.co.sunrays.proj0.service.CourseServiceInt;
 import in.co.sunrays.proj0.service.SubjectServiceInt;
-
+/**
+ * Contains navigation logics for Subject and Subject List Usecases.
+ *
+ * @author SunilOS
+ * @version 1.0
+ * @Copyright (c) SunilOS
+ */
 @Controller
 @RequestMapping(value = "/ctl/Subject")
 public class SubjectCtl extends BaseCtl {
-
+	Logger log = Logger.getLogger(SubjectCtl.class);
 	@Autowired
 	private SubjectServiceInt service;
 
@@ -51,21 +58,24 @@ public class SubjectCtl extends BaseCtl {
 
 	@ModelAttribute("semesterList")
 	public Map<String, String> getDurationList(Model model) {
+		log.debug("SubjectCtl method  getDurationList Start");
 		Map<String, String> semesterList = new LinkedHashMap();
 
 		semesterList.put("I", "I");
-		semesterList.put("II", "I");
+		semesterList.put("II", "II");
 		semesterList.put("III", "III");
 		semesterList.put("IV", "IV");
 		semesterList.put("V", "V");
 		semesterList.put("VI", "VI");
 		semesterList.put("VII", "VII");
 		semesterList.put("VIII", "VIII");
+		log.debug("SubjectCtl method  getDurationList End");
 		return semesterList;
 	}
 
 	@Override
 	public void preload(Model model) {
+		log.debug("SubjectCtl method  preload Start");
 		List list = null;
 		;
 		try {
@@ -74,13 +84,14 @@ public class SubjectCtl extends BaseCtl {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		log.debug("SubjectCtl method  preload End");
 		model.addAttribute("courseList", list);
 	}
 
 	@RequestMapping(value = "/AddSubject", method = RequestMethod.GET)
 	public String display(@RequestParam(required = false) Long id, @ModelAttribute("form") SubjectForm form,
 			Model model, Locale locale) {
-
+		log.debug("SubjectCtl method  display AddSubject Start");
 		if (id != null && id > 0) {
 			SubjectDTO dto = null;
 			;
@@ -92,14 +103,14 @@ public class SubjectCtl extends BaseCtl {
 			}
 			form.populate(dto);
 		}
-
+		log.debug("SubjectCtl method  display AddSubject Start");
 		return "SubjectView";
 	}
 
 	@RequestMapping(value = "/AddSubject", method = RequestMethod.POST)
 	public String submit(@ModelAttribute("form") @Valid SubjectForm form, BindingResult result, Model model,
 			Locale locale) throws DuplicateRecordException {
-
+		log.debug("SubjectCtl method  submit AddSubject Start");
 		if (OP_SAVE.equalsIgnoreCase(form.getOperation())) {
 			if (result.hasErrors()) {
 				return "SubjectView";
@@ -121,18 +132,19 @@ public class SubjectCtl extends BaseCtl {
 			}
 		}
 		if (OP_CANCEL.equalsIgnoreCase(form.getOperation())) {
-			return "redirect:/ctl/Subject/SubjectListCtl";
+			return "redirect:/ctl/Subject/SubjectListCt";
 		}
 		if (OP_RESET.equalsIgnoreCase(form.getOperation())) {
 			return "redirect:/ctl/Subject/AddSubject";
 		}
+		log.debug("SubjectCtl method  submit AddSubject End");
 		return "SubjectView";
 	}
 
 	@RequestMapping(value = "/SubjectListCt", method = RequestMethod.GET)
 	public String display(@RequestParam(required = false) String operation, @ModelAttribute("form") SubjectForm form,
 			Model model, Locale locale) {
-
+		log.debug("SubjectCtl method  display SubjectListCt Start");
 		int pageNo = form.getPageNo();
 		int pageSize = form.getPageSize();
 		List list = null;
@@ -151,13 +163,14 @@ public class SubjectCtl extends BaseCtl {
 			e.printStackTrace();
 		}
 		model.addAttribute("nextlist", next.size());
+		log.debug("SubjectCtl method  display SubjectListCt End");
 		return "SubjectListView";
 	}
 
 	@RequestMapping(value = "/SubjectListCt", method = RequestMethod.POST)
 	public String submit(@RequestParam(required = false) String operation, @ModelAttribute("form") SubjectForm form,
 			Model model, Locale locale) {
-
+		log.debug("SubjectCtl method  submit SubjectListCt Start");
 		int pageNo = (form.getPageNo() == 0) ? 1 : form.getPageNo();
 		int pageSize = form.getPageSize();
 		List list = null;
@@ -180,6 +193,7 @@ public class SubjectCtl extends BaseCtl {
 		}
 
 		if (OP_DELETE.equalsIgnoreCase(operation)) {
+			pageNo = 1;
 			if (form.getChk_1() != null) {
 				for (long id : form.getChk_1()) {
 					try {
@@ -188,10 +202,9 @@ public class SubjectCtl extends BaseCtl {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-
-					String msg = messageSource.getMessage("message.deleterecord", null, locale);
-					model.addAttribute("success", msg);
 				}
+				String msg = messageSource.getMessage("message.deleterecord", null, locale);
+				model.addAttribute("success", msg);
 			} else {
 				String msg = messageSource.getMessage("message.atleastone", null, locale);
 				model.addAttribute("error", msg);
@@ -218,6 +231,7 @@ public class SubjectCtl extends BaseCtl {
 			e.printStackTrace();
 		}
 		model.addAttribute("nextlist", next.size());
+		log.debug("SubjectCtl method  submit SubjectListCt End");
 		return "SubjectListView";
 	}
 
