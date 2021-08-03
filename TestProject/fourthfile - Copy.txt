@@ -1,8 +1,0 @@
-College Management
-Student Management
-Marksheet Management
-User Management
-Faculty Management
-Course Management
-Time Table Management
-Role management
