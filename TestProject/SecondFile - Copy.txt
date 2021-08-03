@@ -1,0 +1,37 @@
+Project-0
+
+Modules :
+
+User Management
+College Management
+Student Management
+Marksheet Management
+Faculty Management
+Course Management
+Time Table Management
+
+
+Technologies:
+
+JDK 1.8
+JSP/Servlet
+JDBC 3.0
+Angular 8/ Angular JS
+Hibernate 3.0 with annotation
+Spring 5.0
+SpringBoot 
+Spring MVC / Spring AOP/ Spring ORM/ Spring DAO
+JUnit 4 / Log 4 J
+Jasper ( iReport )
+Maven Build
+
+Tools:
+
+Eclipse Juno  +  Maven
+IReport 4.1
+SQLYog 
+ArgoUML
+ER Win
+SVN / GitHub
+FDTS
+Timesheet
